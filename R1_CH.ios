@@ -1,0 +1,57 @@
+Router Chiriqui 
+
+hostname R1_Chiriqui
+enable password cisco
+service password-encryption
+line vty 0 15
+login
+password cisco
+exit
+line console 0
+login
+password cisco
+exit
+
+banner motd ^C
+Acceso no autorizado para este dispositivo será denunciado a las autoridades competentes ^C
+config t
+
+interface Gig0/0
+description Enlace a SW1_Chiriqui
+no shutdown
+interface Gig0/0.10
+encapsulation dot1Q 10
+ip address 10.106.4.1 255.255.255.192
+ip helper-address (DHCP Server)
+interface Gig0/0.20
+encapsulation dot1Q 20
+ip address 10.106.4.65 255.255.255.192
+ip helper-address (DHCP Server)
+
+interface Gig0/0.30
+encapsulation dot1Q 30
+ip address 10.106.4.129 255.255.255.192
+ip helper-address (DHCP Server)
+
+interface Gig0/0.40
+encapsulation dot1Q 40
+ip address 10.106.4.193 255.255.255.192
+ip helper-address (DHCP Server)
+
+interface Gig0/1
+description Enlace a SW2_Chiriqui
+no shutdown
+
+interface Gig0/1.50
+encapsulation dot1Q 50
+ip address 10.106.5.1 255.255.255.0
+ip helper-address (DHCP Server)
+
+exit
+
+router bgp 65001
+ bgp log-neighbor-changes
+ neighbor 10.106.9.14 remote-as 65000
+ network 10.106.9.12 mask 255.255.255.252
+ network 10.106.4.0 mask 255.255.254.0
+

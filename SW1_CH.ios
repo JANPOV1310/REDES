@@ -1,0 +1,64 @@
+
+Switch 1 Chiriqui
+
+hostname SW1_Chiriqui
+enable password cisco
+service password-encryption
+line vty 0 15
+login
+password cisco
+exit
+
+line console 0
+login
+password cisco
+exit
+banner motd ^C
+Acceso no autorizado para este dispositivo será denunciado a las autoridades competentes ^C
+
+config t
+interface fa0/1
+description Enlace a R1_Chiriqui
+switchport mode trunk
+switchport trunk allowed vlan 10,20,30,40
+
+vlan 10
+name Computadoras/Impresoras
+exit
+
+vlan 20
+name Gerentes
+exit
+
+vlan 30
+name Vigilancia
+exit
+
+vlan 40
+name Admin/Gestion
+exit
+
+interface fa0/2
+description Enlace a vlan 10
+switchport access vlan 10
+switchport mode access
+exit
+
+interface fa0/3
+description Enlace a vlan 20
+switchport access vlan 20
+switchport mode access
+exit
+
+interface fa0/4
+description Enlace a vlan 30
+switchport access vlan 30
+switchport mode access
+exit
+
+interface fa0/5
+description Enlace a vlan 40
+switchport access vlan 40
+switchport mode access
+exit
+
